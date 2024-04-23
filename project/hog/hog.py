@@ -23,6 +23,16 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    total = 0
+    found_one = False            
+
+    for _ in range(num_rolls):
+        outcome = dice()
+        if outcome==1:
+            found_one=True
+        total+=outcome
+    
+    return 1 if found_one else total
     # END PROBLEM 1
 
 
@@ -34,6 +44,9 @@ def tail_points(opponent_score):
     """
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    a = opponent_score % 10              #opponent_score's ones_digit 
+    b = (opponent_score // 10) % 10      #opponent_score's tens_digit  
+    return 2*abs(a-b)+1
     # END PROBLEM 2
 
 
@@ -51,6 +64,10 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if num_rolls==0:
+        return tail_points(opponent_score)
+    else:
+        return roll_dice(num_rolls, dice)
     # END PROBLEM 3
 
 
@@ -74,6 +91,18 @@ def square_update(num_rolls, player_score, opponent_score, dice=six_sided):
 
 # BEGIN PROBLEM 4
 "*** YOUR CODE HERE ***"
+import math
+def perfect_square(score):
+    square_root = math.sqrt(score)
+    if square_root==int(square_root):
+        return True
+    else:
+        return False
+
+def next_perfect_square(score):
+    square_root = int(math.sqrt(score)+1)
+    return square_root*square_root
+
 # END PROBLEM 4
 
 
@@ -113,6 +142,14 @@ def play(strategy0, strategy1, update,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    while score0<goal and score1<goal:
+        if who==0:
+            num_rolls=strategy0(score0,score1)
+            score0=update(num_rolls,score0,score1,dice)
+        else:
+            num_rolls=strategy1(score1,score0)
+            score1=update(num_rolls,score1,score0,dice)
+        who=1-who
     # END PROBLEM 5
     return score0, score1
 
