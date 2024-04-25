@@ -258,10 +258,6 @@ def max_scoring_num_rolls(dice=six_sided, total_samples=1000):
         arr.append(average_score)
     max_score_index = arr.index(max(arr))
     return max_score_index+1
-    
-
-
-
     # END PROBLEM 9
 
 
@@ -305,14 +301,23 @@ def tail_strategy(score, opponent_score, threshold=12, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore score and Square Swine.
     """
     # BEGIN PROBLEM 10
-    return num_rolls  # Remove this line once implemented.
+    if tail_points(opponent_score)>=threshold:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
 
 
 def square_strategy(score, opponent_score, threshold=12, num_rolls=6):
     """This strategy returns 0 dice when your score would increase by at least threshold."""
     # BEGIN PROBLEM 11
-    return num_rolls  # Remove this line once implemented.
+    new_score=square_update(0, score, opponent_score, dice=six_sided)  #Calculate the score after calling square_update function when num_rolls=0         
+    add_score=new_score - score                                        #Calculate the added score
+    if add_score>=threshold:
+        return 0
+    else:
+        return num_rolls
+
     # END PROBLEM 11
 
 
@@ -321,8 +326,24 @@ def final_strategy(score, opponent_score):
 
     *** YOUR DESCRIPTION HERE ***
     """
-    # BEGIN PROBLEM 12
-    return 6  # Remove this line once implemented.
+    # BEGIN PROBLEM 12                       #Choose the number of dice to roll based on your own and your opponent's scores. Scores and risks coexist
+    if score>opponent_score:                
+        if score - opponent_score>=20:
+            return 2
+        else:
+            return 4
+    elif score<opponent_score:
+        if opponent_score - score>=20:
+            return 6
+        else:
+            return 5
+    elif score==opponent_score:
+        if score<50:
+            return 5
+        else:
+            return 4
+
+
     # END PROBLEM 12
 
 
