@@ -3,3 +3,5 @@
 'make_repeater-correct', (1024, 66)
 'apply_twice-correct', (1536, 66)
 'div_by_primes_under-correct', (2048, 66)
+'church_to_int-correct', (2560, 66)
+'add_church-correct', (3072, 66)
